@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Feliz Navidad Bian 🎄</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+
+body{
+    font-family:'Quicksand',sans-serif;
+    height:100vh;
+    overflow:hidden;
+}
+
+/* --------- PANTALLAS --------- */
+.screen{
+    display:none;
+    height:100vh;
+    width:100%;
+    align-items:center;
+    justify-content:center;
+    flex-direction:column;
+    text-align:center;
+    padding:20px;
+}
+
+.active{display:flex}
+
+/* --------- FONDO --------- */
+.bg{
+    background:linear-gradient(rgba(255, 240, 240, 0.8), rgba(255, 248, 248, 0.9)), url('https://images.unsplash.com/photo-1513297887119-d46091b24bfa?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80') center/cover no-repeat;
+    position:relative;
+}
+
+.overlay{
+    position:absolute;
+    inset:0;
+    background:rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(1px);
+}
+
+/* --------- TITULO MEJORADO --------- */
+.title-container {
+    z-index:2;
+    background: rgba(255, 255, 255, 0.85);
+    border-radius: 25px;
+    padding: 25px 40px;
+    box-shadow: 0 15px 35px rgba(198, 40, 40, 0.2);
+    border: 3px solid #c62828;
+    max-width: 85%;
+    margin-bottom: 30px;
+    animation: fadeInUp 0.8s ease-out;
+}
+
+h1{
+    font-family:'Pacifico',cursive;
+    font-size:3.2rem;
+    color:#c62828;
+    margin-bottom:10px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+    background: linear-gradient(45deg, #c62828, #e53935);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.subtitle {
+    font-size: 1.3rem;
+    color: #2e7d32;
+    font-weight: 600;
+    margin-top: 10px;
+}
+
+/* --------- BOTON MEJORADO --------- */
+.button-container {
+    z-index:2;
+    margin-top: 10px;
+}
+
+button{
+    background: linear-gradient(to bottom, #c62828, #8e0000);
+    color: white;
+    border: none;
+    padding: 18px 50px;
+    font-size: 1.3rem;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 0 8px 20px rgba(198, 40, 40, 0.3);
+    font-weight: 600;
+    letter-spacing: 1px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+button:hover{
+    transform:translateY(-5px);
+    box-shadow: 0 12px 25px rgba(198, 40, 40, 0.4);
+    background: linear-gradient(to bottom, #d32f2f, #9a0000);
+}
+
+/* --------- REGALO --------- */
+.gift{
+    width:260px;
+    cursor:pointer;
+    animation:pulse 1.4s infinite;
+    z-index:2;
+    filter: drop-shadow(0 10px 15px rgba(0,0,0,0.2));
+    transition: transform 0.3s;
+}
+
+.gift:hover {
+    transform: scale(1.1) rotate(5deg);
+}
+
+@keyframes pulse{
+    0%,100%{transform:scale(1)}
+    50%{transform:scale(1.08)}
+}
+
+.text{
+    margin-top:25px;
+    font-size:1.4rem;
+    z-index:2;
+    background: rgba(255,255,255,0.9);
+    padding: 15px 30px;
+    border-radius: 50px;
+    color: #c62828;
+    font-weight: 600;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    border: 2px dashed #c62828;
+}
+
+/* --------- ESCENA FINAL --------- */
+.scene{
+    position:relative;
+    width:100%;
+    height:100%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+/* Snoopy reposicionado más a la izquierda */
+.snoopy{
+    width:300px;
+    position:absolute;
+    bottom:70px;
+    left:80px; /* Cambiado de right a left */
+    animation:float 3s ease-in-out infinite;
+    z-index:3;
+    filter: drop-shadow(0 15px 10px rgba(0,0,0,0.3));
+}
+
+@keyframes float{
+    0%,100%{transform:translateY(0) rotate(-2deg)}
+    50%{transform:translateY(-15px) rotate(2deg)}
+}
+
+/* Nube texto mejorada */
+.cloud{
+    position:absolute;
+    top:90px;
+    left:50%;
+    transform:translateX(-50%);
+    background: linear-gradient(145deg, #ffffff, #f0f0f0);
+    padding:35px 50px;
+    border-radius: 70px 20px 70px 20px;
+    font-family:'Pacifico',cursive;
+    font-size:2.1rem;
+    color:#c62828;
+    box-shadow: 0 25px 45px rgba(0,0,0,0.25);
+    z-index:3;
+    text-align:center;
+    line-height:1.4;
+    border: 4px solid #ffcdd2;
+    max-width: 600px;
+    animation: cloudAppear 1s ease-out;
+}
+
+.cloud::before {
+    content: "";
+    position: absolute;
+    top: -20px;
+    left: 50px;
+    width: 40px;
+    height: 40px;
+    background: #ffffff;
+    border-radius: 50%;
+    box-shadow: inset -5px -5px 10px rgba(0,0,0,0.05);
+}
+
+.cloud::after {
+    content: "";
+    position: absolute;
+    top: -15px;
+    right: 60px;
+    width: 30px;
+    height: 30px;
+    background: #ffffff;
+    border-radius: 50%;
+    box-shadow: inset -5px -5px 10px rgba(0,0,0,0.05);
+}
+
+@keyframes cloudAppear {
+    0% { transform: translateX(-50%) translateY(-30px); opacity: 0; }
+    100% { transform: translateX(-50%) translateY(0); opacity: 1; }
+}
+
+@keyframes fadeInUp {
+    0% { transform: translateY(30px); opacity: 0; }
+    100% { transform: translateY(0); opacity: 1; }
+}
+
+/* --------- NIEVE --------- */
+.snow{
+    position:absolute;
+    inset:0;
+    pointer-events:none;
+    z-index:4;
+}
+
+.snow span{
+    position:absolute;
+    top:-10px;
+    width:8px;
+    height:8px;
+    background:white;
+    border-radius:50%;
+    opacity:0.8;
+    animation:fall linear infinite;
+    filter: blur(0.5px);
+}
+
+@keyframes fall{
+    to{transform:translateY(110vh)}
+}
+
+/* --------- CONTROL DE MÚSICA --------- */
+.music-player {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 50px;
+    padding: 15px 25px;
+    z-index: 10;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    border: 2px solid #c62828;
+    animation: slideInRight 0.8s ease-out 2.5s both;
+}
+
+.music-info {
+    font-size: 1rem;
+    color: #333;
+    font-weight: 600;
+}
+
+.music-title {
+    color: #c62828;
+    font-weight: 700;
+}
+
+.music-controls {
+    display: flex;
+    gap: 10px;
+}
+
+.music-btn {
+    background: #c62828;
+    color: white;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+}
+
+.music-btn:hover {
+    background: #8e0000;
+    transform: scale(1.1);
+}
+
+@keyframes slideInRight {
+    0% { transform: translateX(100px); opacity: 0; }
+    100% { transform: translateX(0); opacity: 1; }
+}
+
+/* --------- DECORACIONES ADICIONALES --------- */
+.decorations {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.christmas-ball {
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    box-shadow: inset -5px -5px 10px rgba(0,0,0,0.3);
+}
+
+.ball1 {
+    top: 15%;
+    left: 10%;
+    background: radial-gradient(circle at 30% 30%, #c62828, #8e0000);
+    animation: swing 4s infinite ease-in-out;
+}
+
+.ball2 {
+    top: 20%;
+    right: 15%;
+    background: radial-gradient(circle at 30% 30%, #2e7d32, #1b5e20);
+    animation: swing 5s infinite ease-in-out 0.5s;
+}
+
+.ball3 {
+    bottom: 25%;
+    right: 5%;
+    background: radial-gradient(circle at 30% 30%, #ff8f00, #e65100);
+    animation: swing 3.5s infinite ease-in-out 1s;
+}
+
+@keyframes swing {
+    0%, 100% { transform: translateY(0) rotate(0); }
+    50% { transform: translateY(-15px) rotate(5deg); }
+}
+
+/* --------- RESPONSIVE --------- */
+@media (max-width: 768px) {
+    h1 { font-size: 2.5rem; }
+    .cloud { 
+        font-size: 1.7rem; 
+        padding: 25px 35px;
+        max-width: 90%;
+    }
+    .snoopy {
+        width: 220px;
+        left: 30px;
+        bottom: 50px;
+    }
+    .music-player {
+        flex-direction: column;
+        width: 90%;
+        right: 5%;
+        bottom: 10px;
+        border-radius: 20px;
+        padding: 15px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- PANTALLA 1 -->
+<div class="screen bg active" id="s1">
+    <div class="overlay"></div>
+    <div class="decorations">
+        <div class="christmas-ball ball1"></div>
+        <div class="christmas-ball ball2"></div>
+        <div class="christmas-ball ball3"></div>
+    </div>
+    
+    <div class="title-container">
+        <h1>Feliz Navidad Bian 🎄</h1>
+        <div class="subtitle">Que esta navidad esté llena de alegría y momentos especiales</div>
+    </div>
+    
+    <div class="button-container">
+        <button onclick="go(2)">
+            <i class="fas fa-gift"></i> Continuar
+        </button>
+    </div>
+</div>
+
+<!-- PANTALLA 2 -->
+<div class="screen bg" id="s2">
+    <div class="overlay"></div>
+    <div class="decorations">
+        <div class="christmas-ball ball1"></div>
+        <div class="christmas-ball ball2"></div>
+    </div>
+    
+    <img src="regalo.png" class="gift" onclick="go(3)">
+    <div class="text">¡Presioná el regalo para abrirlo! 🎁</div>
+</div>
+
+<!-- PANTALLA 3 -->
+<div class="screen bg" id="s3">
+    <div class="overlay"></div>
+    
+    <div class="scene">
+        <div class="cloud">
+            <i class="fas fa-heart" style="color:#e53935; margin-right:10px;"></i>
+            Feliz Navidad Bian <br>
+            Te quiero mucho ❤️
+        </div>
+
+        <img src="snoopy.png" class="snoopy">
+
+        <!-- NIEVE -->
+        <div class="snow" id="snow"></div>
+
+        <audio id="music" src="musica.mp3" loop></audio>
+    </div>
+</div>
+
+<!-- CONTROL DE MÚSICA -->
+<div class="music-player" id="musicPlayer" style="display: none;">
+    <div class="music-info">
+        Reproduciendo: <span class="music-title">Andrea - Bad Bunny</span>
+    </div>
+    <div class="music-controls">
+        <button class="music-btn" id="playBtn">
+            <i class="fas fa-play"></i>
+        </button>
+        <button class="music-btn" id="pauseBtn">
+            <i class="fas fa-pause"></i>
+        </button>
+        <button class="music-btn" id="volumeBtn">
+            <i class="fas fa-volume-up"></i>
+        </button>
+    </div>
+</div>
+
+<script>
+function go(n){
+    document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+    document.getElementById('s'+n).classList.add('active');
+    
+    if(n===3){
+        // Retrasar la música 2 segundos después de cargar esta pantalla
+        setTimeout(() => {
+            document.getElementById('music').play();
+            document.getElementById('musicPlayer').style.display = 'flex';
+            document.getElementById('playBtn').querySelector('i').classList.replace('fa-play', 'fa-pause');
+        }, 1000);
+        createSnow();
+    }
+}
+
+function createSnow(){
+    const snow = document.getElementById('snow');
+    snow.innerHTML = ''; // Limpiar nieve anterior
+    for(let i=0;i<80;i++){
+        const flake=document.createElement('span');
+        flake.style.left=Math.random()*100+'%';
+        flake.style.animationDuration=(5+Math.random()*8)+'s';
+        flake.style.opacity=Math.random()*0.8+0.2;
+        flake.style.width = Math.random()*10+5+'px';
+        flake.style.height = flake.style.width;
+        flake.style.animationDelay=Math.random()*5+'s';
+        snow.appendChild(flake);
+    }
+}
+
+// Control de música
+document.addEventListener('DOMContentLoaded', function() {
+    const music = document.getElementById('music');
+    const playBtn = document.getElementById('playBtn');
+    const pauseBtn = document.getElementById('pauseBtn');
+    const volumeBtn = document.getElementById('volumeBtn');
+    
+    if (playBtn) {
+        playBtn.addEventListener('click', function() {
+            music.play();
+            playBtn.querySelector('i').classList.replace('fa-play', 'fa-pause');
+        });
+    }
+    
+    if (pauseBtn) {
+        pauseBtn.addEventListener('click', function() {
+            music.pause();
+            playBtn.querySelector('i').classList.replace('fa-pause', 'fa-play');
+        });
+    }
+    
+    if (volumeBtn) {
+        let isMuted = false;
+        volumeBtn.addEventListener('click', function() {
+            isMuted = !isMuted;
+            music.volume = isMuted ? 0 : 1;
+            volumeBtn.querySelector('i').classList.toggle('fa-volume-up');
+            volumeBtn.querySelector('i').classList.toggle('fa-volume-mute');
+        });
+    }
+    
+    // Inicializar efectos visuales
+    createDecorations();
+});
+
+function createDecorations() {
+    // Esta función ya no es necesaria ya que las decoraciones están en el HTML
+    // Se mantiene por si se quieren añadir más dinámicamente
+}
+</script>
+
+</body>
+</html>

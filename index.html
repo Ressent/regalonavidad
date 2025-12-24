@@ -43,6 +43,92 @@ body{
     backdrop-filter: blur(1px);
 }
 
+/* --------- PANTALLA DE SELECCIÓN DE MÚSICA --------- */
+.music-selection-container {
+    z-index:2;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 25px;
+    padding: 30px 40px;
+    box-shadow: 0 15px 35px rgba(198, 40, 40, 0.2);
+    border: 3px solid #c62828;
+    max-width: 85%;
+    margin-bottom: 30px;
+    animation: fadeInUp 0.8s ease-out;
+    width: 90%;
+    max-width: 500px;
+}
+
+.music-selection-title {
+    font-family:'Pacifico',cursive;
+    font-size:2.5rem;
+    color:#c62828;
+    margin-bottom:20px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+}
+
+.music-options {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;
+    margin-bottom: 25px;
+}
+
+.music-option {
+    background: linear-gradient(to right, #f8f9fa, #ffffff);
+    border: 2px solid #e0e0e0;
+    border-radius: 15px;
+    padding: 20px;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    text-align: left;
+}
+
+.music-option:hover {
+    transform: translateY(-3px);
+    border-color: #c62828;
+    box-shadow: 0 8px 15px rgba(198, 40, 40, 0.15);
+}
+
+.music-option.active-option {
+    background: linear-gradient(to right, #ffebee, #ffcdd2);
+    border-color: #c62828;
+    box-shadow: 0 8px 20px rgba(198, 40, 40, 0.2);
+}
+
+.music-icon {
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(135deg, #c62828, #8e0000);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.3rem;
+    flex-shrink: 0;
+}
+
+.music-info {
+    flex: 1;
+}
+
+.music-name {
+    font-size: 1.4rem;
+    color: #c62828;
+    font-weight: 700;
+    margin-bottom: 5px;
+}
+
+.music-artist {
+    font-size: 1rem;
+    color: #666;
+    font-weight: 600;
+}
+
 /* --------- TITULO MEJORADO --------- */
 .title-container {
     z-index:2;
@@ -247,16 +333,16 @@ button:hover{
     position: fixed;
     bottom: 20px;
     right: 20px;
-    background: rgba(255, 255, 255, 0.9);
+    background: rgba(255, 255, 255, 0.95);
     border-radius: 50px;
     padding: 15px 25px;
-    z-index: 10;
+    z-index: 100;
     box-shadow: 0 10px 25px rgba(0,0,0,0.2);
     display: flex;
     align-items: center;
     gap: 15px;
     border: 2px solid #c62828;
-    animation: slideInRight 0.8s ease-out 2.5s both;
+    animation: slideInRight 0.8s ease-out 0.5s both;
 }
 
 .music-info {
@@ -363,14 +449,72 @@ button:hover{
         border-radius: 20px;
         padding: 15px;
     }
+    .music-selection-container {
+        padding: 20px;
+    }
+    .music-selection-title {
+        font-size: 2rem;
+    }
+    .music-option {
+        padding: 15px;
+    }
+    .music-icon {
+        width: 40px;
+        height: 40px;
+        font-size: 1.1rem;
+    }
+    .music-name {
+        font-size: 1.2rem;
+    }
 }
 </style>
 </head>
 
 <body>
 
+<!-- PANTALLA 0 - SELECCIÓN DE MÚSICA -->
+<div class="screen bg active" id="s0">
+    <div class="overlay"></div>
+    <div class="decorations">
+        <div class="christmas-ball ball1"></div>
+        <div class="christmas-ball ball2"></div>
+        <div class="christmas-ball ball3"></div>
+    </div>
+    
+    <div class="music-selection-container">
+        <div class="music-selection-title">Selecciona una canción 🎵</div>
+        <div class="music-options">
+            <div class="music-option" data-song="andrea" onclick="selectSong('andrea')">
+                <div class="music-icon">
+                    <i class="fas fa-music"></i>
+                </div>
+                <div class="music-info">
+                    <div class="music-name">Andrea</div>
+                    <div class="music-artist">Bad Bunny</div>
+                </div>
+            </div>
+            
+            <div class="music-option" data-song="rio" onclick="selectSong('rio')">
+                <div class="music-icon">
+                    <i class="fas fa-music"></i>
+                </div>
+                <div class="music-info">
+                    <div class="music-name">Río</div>
+                    <div class="music-artist">J Balvin</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="button-container">
+            <button onclick="startWithSelectedSong()">
+                <i class="fas fa-play-circle"></i> Continuar con la música
+            </button>
+        </div>
+    </div>
+</div>
+
 <!-- PANTALLA 1 -->
-<div class="screen bg active" id="s1">
+<div class="screen bg" id="s1">
     <div class="overlay"></div>
     <div class="decorations">
         <div class="christmas-ball ball1"></div>
@@ -410,7 +554,7 @@ button:hover{
         <div class="cloud">
             <i class="fas fa-heart" style="color:#e53935; margin-right:10px;"></i>
             Feliz Navidad Bian <br>
-            Te quierooooo ❤️
+            Te quieroooo ❤️
         </div>
 
         <img src="snoopy.png" class="snoopy">
@@ -418,14 +562,23 @@ button:hover{
         <!-- NIEVE -->
         <div class="snow" id="snow"></div>
 
-        <audio id="music" src="musica.mp3" loop></audio>
+        <!-- AUDIOS OCULTOS -->
+        <audio id="music-andrea" loop>
+            <!-- Reemplaza con tu enlace de música -->
+            <source src="musica.mp3" type="audio/mpeg">
+        </audio>
+        
+        <audio id="music-rio" loop>
+            <!-- Reemplaza con tu enlace de música -->
+            <source src="musica2.mp3" type="audio/mpeg">
+        </audio>
     </div>
 </div>
 
 <!-- CONTROL DE MÚSICA -->
 <div class="music-player" id="musicPlayer" style="display: none;">
     <div class="music-info">
-        Reproduciendo: <span class="music-title">Andrea - Bad Bunny</span>
+        Reproduciendo: <span class="music-title" id="currentSongTitle">Andrea - Bad Bunny</span>
     </div>
     <div class="music-controls">
         <button class="music-btn" id="playBtn">
@@ -441,24 +594,92 @@ button:hover{
 </div>
 
 <script>
+// Variables globales
+let selectedSong = null;
+let currentAudio = null;
+
+// Función para seleccionar canción
+function selectSong(song) {
+    // Remover clase activa de todas las opciones
+    document.querySelectorAll('.music-option').forEach(option => {
+        option.classList.remove('active-option');
+    });
+    
+    // Agregar clase activa a la opción seleccionada
+    document.querySelector(`.music-option[data-song="${song}"]`).classList.add('active-option');
+    
+    // Guardar la selección
+    selectedSong = song;
+}
+
+// Función para iniciar con la canción seleccionada
+function startWithSelectedSong() {
+    if (!selectedSong) {
+        alert('Por favor, selecciona una canción primero');
+        return;
+    }
+    
+    // Iniciar música
+    playSelectedSong();
+    
+    // Ir a la pantalla 1
+    go(1);
+}
+
+// Función para reproducir la canción seleccionada
+function playSelectedSong() {
+    // Detener cualquier audio actual
+    if (currentAudio) {
+        currentAudio.pause();
+        currentAudio.currentTime = 0;
+    }
+    
+    // Obtener el audio según la selección
+    if (selectedSong === 'andrea') {
+        currentAudio = document.getElementById('music-andrea');
+        document.getElementById('currentSongTitle').textContent = 'Andrea - Bad Bunny';
+    } else if (selectedSong === 'rio') {
+        currentAudio = document.getElementById('music-rio');
+        document.getElementById('currentSongTitle').textContent = 'Río - J Balvin';
+    }
+    
+    // Reproducir música después de un breve retraso
+    setTimeout(() => {
+        if (currentAudio) {
+            currentAudio.play().catch(e => {
+                console.log("Error al reproducir automáticamente:", e);
+            });
+            
+            // Mostrar control de música
+            document.getElementById('musicPlayer').style.display = 'flex';
+            document.getElementById('playBtn').querySelector('i').classList.replace('fa-play', 'fa-pause');
+        }
+    }, 500);
+}
+
+// Navegación entre pantallas
 function go(n){
     document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
     document.getElementById('s'+n).classList.add('active');
     
-    if(n===3){
-        // Retrasar la música 2 segundos después de cargar esta pantalla
-        setTimeout(() => {
-            document.getElementById('music').play();
-            document.getElementById('musicPlayer').style.display = 'flex';
-            document.getElementById('playBtn').querySelector('i').classList.replace('fa-play', 'fa-pause');
-        }, 1000);
+    // Si vamos a la pantalla 3, crear nieve
+    if(n === 3){
         createSnow();
+    }
+    
+    // Si hay música seleccionada y estamos en cualquier pantalla excepto la 0
+    // mantener la música reproduciéndose
+    if (n !== 0 && currentAudio && currentAudio.paused) {
+        currentAudio.play().catch(e => {
+            console.log("Error al reanudar:", e);
+        });
     }
 }
 
+// Crear efecto de nieve
 function createSnow(){
     const snow = document.getElementById('snow');
-    snow.innerHTML = ''; // Limpiar nieve anterior
+    snow.innerHTML = '';
     for(let i=0;i<80;i++){
         const flake=document.createElement('span');
         flake.style.left=Math.random()*100+'%';
@@ -473,46 +694,54 @@ function createSnow(){
 
 // Control de música
 document.addEventListener('DOMContentLoaded', function() {
-    const music = document.getElementById('music');
     const playBtn = document.getElementById('playBtn');
     const pauseBtn = document.getElementById('pauseBtn');
     const volumeBtn = document.getElementById('volumeBtn');
     
+    // Botón de play
     if (playBtn) {
         playBtn.addEventListener('click', function() {
-            music.play();
-            playBtn.querySelector('i').classList.replace('fa-play', 'fa-pause');
+            if (currentAudio) {
+                currentAudio.play();
+                playBtn.querySelector('i').classList.replace('fa-play', 'fa-pause');
+            }
         });
     }
     
+    // Botón de pausa
     if (pauseBtn) {
         pauseBtn.addEventListener('click', function() {
-            music.pause();
-            playBtn.querySelector('i').classList.replace('fa-pause', 'fa-play');
+            if (currentAudio) {
+                currentAudio.pause();
+                playBtn.querySelector('i').classList.replace('fa-pause', 'fa-play');
+            }
         });
     }
     
+    // Botón de volumen (mute/unmute)
     if (volumeBtn) {
         let isMuted = false;
         volumeBtn.addEventListener('click', function() {
-            isMuted = !isMuted;
-            music.volume = isMuted ? 0 : 1;
-            volumeBtn.querySelector('i').classList.toggle('fa-volume-up');
-            volumeBtn.querySelector('i').classList.toggle('fa-volume-mute');
+            if (currentAudio) {
+                isMuted = !isMuted;
+                currentAudio.volume = isMuted ? 0 : 1;
+                volumeBtn.querySelector('i').classList.toggle('fa-volume-up');
+                volumeBtn.querySelector('i').classList.toggle('fa-volume-mute');
+            }
         });
     }
     
-    // Inicializar efectos visuales
-    createDecorations();
+    // Seleccionar una canción por defecto
+    selectSong('andrea');
 });
 
-function createDecorations() {
-    // Esta función ya no es necesaria ya que las decoraciones están en el HTML
-    // Se mantiene por si se quieren añadir más dinámicamente
-}
+// Mantener la música reproduciéndose al cambiar entre pantallas
+window.addEventListener('beforeunload', function() {
+    if (currentAudio) {
+        currentAudio.pause();
+    }
+});
 </script>
 
 </body>
-
 </html>
-
